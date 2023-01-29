@@ -17,6 +17,13 @@ class ViewController: UIViewController {
         return stackView
     }()
     
+    let image: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "Background-Bubbles")
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -26,6 +33,7 @@ class ViewController: UIViewController {
     func setupUI() {
         view.backgroundColor = #colorLiteral(red: 0.1923559308, green: 0.2327082157, blue: 0.3624993563, alpha: 1)
         view.addSubview(stackView)
+        view.addSubview(image)
         stackView.backgroundColor = .white
         setupConstraints()
     }
@@ -38,6 +46,15 @@ class ViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
+        
+        image.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            image.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            image.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            image.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            image.heightAnchor.constraint(equalToConstant: 102)
+        ])
+        
     }
 
 }
