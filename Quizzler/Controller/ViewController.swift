@@ -10,8 +10,9 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var firstAnswer: UIButton!
+    @IBOutlet weak var secondAnswer: UIButton!
+    @IBOutlet weak var thirdAnswer: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var scoreLabel: UILabel!
     
@@ -27,17 +28,19 @@ class ViewController: UIViewController {
             return
         }
         let solution = quiz.checkAnswer(userAnswer)
-        quiz.nextQuestion()
-        print(solution)
         sender.backgroundColor = solution ? .green : .red
         quiz.nextQuestion()
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
     
     @objc private func updateUI() {
-        self.trueButton.backgroundColor = .clear
-        self.falseButton.backgroundColor = .clear
+        self.firstAnswer.backgroundColor = .clear
+        self.secondAnswer.backgroundColor = .clear
+        self.thirdAnswer.backgroundColor = .clear
         questionLabel.text = quiz.getQuestionText()
+        firstAnswer.setTitle(quiz.getAnswers()[0], for: .normal)
+        secondAnswer.setTitle(quiz.getAnswers()[1], for: .normal)
+        thirdAnswer.setTitle(quiz.getAnswers()[2], for: .normal)
         progressBar.progress = quiz.getProgress()
         scoreLabel.text = "Score: \(quiz.getScore())"
     }
