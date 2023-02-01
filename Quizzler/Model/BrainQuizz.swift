@@ -1,19 +1,13 @@
 //
-//  ViewController.swift
+//  BrainQuizz.swift
 //  Quizzler
 //
-//  Created by Aleksandra Asichka on 2023-01-29.
+//  Created by Aleksandra Asichka on 2023-02-01.
 //
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
-
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
-    @IBOutlet weak var progressBar: UIProgressView!
-    
+struct BrainQuizz {
     private let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
               Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -27,42 +21,36 @@ class ViewController: UIViewController {
               Question(q: "The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.", a: "False"),
               Question(q: "No piece of square dry paper can be folded in half more than 7 times.", a: "False"),
               Question(q: "Chocolate affects a dog's heart and nervous system; a few ounces are enough to kill a small dog.", a: "True")
-
     ]
     
     private var questionNumber = 0
     private var score = 0
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        updateUI()
-        
-    }
     
-    @IBAction func answerButtonPressed(_ sender: UIButton) {
-        guard let userAnswer = sender.titleLabel?.text else {
-            print("error")
-            return
-        }
-        print(userAnswer)
+    mutating func checkAnswer(_ userAnswer: String) -> Bool {
         let actualAnswer = quiz[questionNumber].answer
-        score = userAnswer == actualAnswer ? score + 1 : score
-        sender.backgroundColor = userAnswer == actualAnswer ? .green : .red
-        questionNumber += 1
-        progressBar.progress = Float(questionNumber) / Float(quiz.count)
-        updateUI()
+        let solution = actualAnswer == userAnswer ? true : false
+        score = solution ? score + 1 : score
+        return solution
     }
     
-    private func updateUI() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.trueButton.backgroundColor = .clear
-            self.falseButton.backgroundColor = .clear
-        }
-
-        
-        if questionNumber < quiz.count {
-            questionLabel.text = quiz[questionNumber].text
+    func getQuestionText() -> String {
+        return quiz[questionNumber].text
+    }
+    
+    func getProgress() -> Float {
+        return Float(questionNumber) / Float(quiz.count)
+    }
+    
+    mutating func nextQuestion() {
+        if questionNumber + 1 < quiz.count {
+            questionNumber += 1
         } else {
-            questionLabel.text = "Your score \(score)/\(quiz.count )"
+            questionNumber = 0
+            score = 0
         }
+    }
+    
+    mutating func getScore() -> Int {
+        return score
     }
 }
