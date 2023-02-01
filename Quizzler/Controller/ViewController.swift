@@ -10,9 +10,8 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var firstAnswer: UIButton!
-    @IBOutlet weak var secondAnswer: UIButton!
-    @IBOutlet weak var thirdAnswer: UIButton!
+    
+    @IBOutlet var answerButton: [UIButton]!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var scoreLabel: UILabel!
     
@@ -34,13 +33,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func updateUI() {
-        self.firstAnswer.backgroundColor = .clear
-        self.secondAnswer.backgroundColor = .clear
-        self.thirdAnswer.backgroundColor = .clear
+        for i in 0...answerButton.count - 1 {
+            answerButton[i].setTitle(quiz.getAnswers()[i], for: .normal)
+            answerButton[i].backgroundColor = .clear
+        }
         questionLabel.text = quiz.getQuestionText()
-        firstAnswer.setTitle(quiz.getAnswers()[0], for: .normal)
-        secondAnswer.setTitle(quiz.getAnswers()[1], for: .normal)
-        thirdAnswer.setTitle(quiz.getAnswers()[2], for: .normal)
         progressBar.progress = quiz.getProgress()
         scoreLabel.text = "Score: \(quiz.getScore())"
     }
